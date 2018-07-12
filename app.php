@@ -38,14 +38,62 @@ $listFeed = $worksheet->getListFeed();
 foreach ($listFeed->getEntries() as $entry) {
     
     $representative = $entry->getValues();
-    // echo $entry->getValues();
+    
     foreach($representative as $value){
-        echo $value;
+        echo $value . "\n";
     }
 }
 
+/* Deleting previous data */
+
 $listFeed = $worksheet->getListFeed();
 
-$listFeed->insert([
-    'one' => 'two'
-]);
+// foreach ($listFeed->getEntries() as $entry) {
+//     $entry->delete();
+//     for($i=0; $i<1; $i++){
+//         //$entry->delete();
+//     }
+    
+// }
+
+
+// echo "Data Delete Successfull\n";
+
+/* Inserting data */
+
+$time = '11:45';
+$space = 109;
+
+$listFeed = $worksheet->getListFeed();
+
+for($i=0; $i < 2; $i++){
+    $listFeed->insert([
+        'time' => $time,
+        'space' => $space,
+    ]);
+
+}
+echo "Data Insert Successfull\n";
+
+// $spreadsheetId = '1Acpl5fcEqKxxAg56CQLO5cHIXWp_1T-Dz00q2F-5R6g';
+// $range = 'Sheet1!A1:D5';
+
+// $values = [
+//   'range' => "A1",
+//   'majorDimension' => 'DIMENSION_UNSPECIFIED',
+//   'values' => [
+//     ["Item", "Cost", "Stocked", "Ship Date"],
+//     ["Wheel", "$20.50", "4", "3/1/2016"],
+//     ["Door", "$15", "2", "3/15/2016"],
+//     ["Engine", "$100", "1", "30/20/2016"],
+//   ],
+// ];
+
+// $body = new Google_Service_Sheets_ValueRange(array(
+//   'values' => $values
+// ));
+// $params = array(
+//   'valueInputOption' => 'RAW'
+// );
+
+// $result = $service->spreadsheets_values->update($spreadsheetId, $range, $body, $params);

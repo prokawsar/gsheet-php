@@ -1,2 +1,6 @@
 client_secret.json
 vendor
+libs
+HtmlDomParser
+wsdot.php
+cookieFile.txt
