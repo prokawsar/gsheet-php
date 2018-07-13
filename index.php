@@ -54,26 +54,29 @@ $data = preg_replace('/new Date\(\d*\)/m', '""', $data);
 $data = json_decode($data);
 
 foreach($data->FeedContentList as $list){
-        // echo $list->Terminal->TerminalName."\n";
 
-    foreach($list->DepartSailingSpaces as $terminal){
-        echo $terminal->Departure."\n";
-        echo $terminal->Vessel."\n";        
-        echo $terminal->ArriveSailingSpaces[0]->TerminalName."\n";
-        echo $terminal->ArriveSailingSpaces[0]->DriveUpInfo."\n";
-        echo $terminal->ArriveSailingSpaces[0]->MaxSpaceCount."\n";
-
-        $listFeed = $worksheet->getListFeed();
-
-        $listFeed->insert([
-            'terminal' => $terminal->ArriveSailingSpaces[0]->TerminalName,
-            'time' => $terminal->Departure,
-            'total' => $terminal->ArriveSailingSpaces[0]->MaxSpaceCount,
-            'drive' => $terminal->ArriveSailingSpaces[0]->DriveUpInfo,
-            'vessel' => $terminal->Vessel,
-        ]);
-
+    if($list->Terminal->TerminalID == 3){
+        echo $list->Terminal->TerminalName."\n"; // Departure Terminal
         
+        foreach($list->DepartSailingSpaces as $terminal){
+            echo $terminal->Departure."\n"; // Departure Time
+            echo $terminal->ArriveSailingSpaces[0]->TerminalName."\n"; // Destination Terminal
+            echo $terminal->Vessel."\n";        
+            echo $terminal->ArriveSailingSpaces[0]->DriveUpInfo."\n";
+            // echo $terminal->ArriveSailingSpaces[0]->MaxSpaceCount."\n";
+
+            $listFeed = $worksheet->getListFeed();
+
+            $listFeed->insert([
+                'terminal' => $list->Terminal->TerminalName,
+                'time' => $terminal->Departure,
+                'destination' => $terminal->ArriveSailingSpaces[0]->TerminalName,
+                'spaces' =>  $terminal->ArriveSailingSpaces[0]->DriveUpInfo,
+                'vessel' => $terminal->Vessel,
+                'captured' => date('d-m-Y h:i')
+            ]);
+
+        }
     }
     echo "\n";
 }
